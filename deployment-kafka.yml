@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kafka-deploy
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: kafka-base
+        image: wrap/kfkb:3.0
+        ports:
+        - containerPort: 9092
+        - containerPort: 2181
+        volumeMounts:
+        - name: configmap-volume
+          mountPath: /opt/server.properties
+      volumes:
+        - name: configmap-volume
+          configMap:
+            name: kafka-deploy-configmap
