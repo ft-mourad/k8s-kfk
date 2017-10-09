@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ .Chart.Name }}
+spec:
+  serviceName: {{ .Chart.Name }}
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: wrap/kfkb:3.0
+        ports:
+        - containerPort: 9092
+          name: kafka
+        - containerPort: 2181
+          name: zookeeper
+        volumeMounts:
+        - name: {{ .Chart.Name }}-volume
+          mountPath: /opt/server.properties
+      volumes:
+      - name: {{ .Chart.Name }}-volume
+        configMap:
+          name: {{ .Chart.Name }}
