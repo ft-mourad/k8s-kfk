@@ -24,6 +24,6 @@ data:
     log.retention.hours=168
     log.segment.bytes=1073741824
     log.retention.check.interval.ms=300000
-    zookeeper.connect=zookeeper-svc:2181
-    zookeeper.connection.timeout.ms=6000
+    zookeeper.connect=zookeeper-client:2181
+    zookeeper.connection.timeout.ms=30000
     group.initial.rebalance.delay.ms=0
